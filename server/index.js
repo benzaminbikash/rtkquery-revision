@@ -2,12 +2,11 @@ const express = require("express");
 const server = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
-const User = require("./usermodel"); // Updated variable name for clarity
+const User = require("./usermodel");
 
 server.use(cors());
 server.use(express.json());
 
-// GET all users
 server.get("/user", async (req, res) => {
   try {
     const users = await User.find();
@@ -23,7 +22,6 @@ server.get("/user", async (req, res) => {
   }
 });
 
-// POST (create) a new user
 server.post("/user", async (req, res) => {
   try {
     const newUser = new User(req.body);
@@ -40,12 +38,11 @@ server.post("/user", async (req, res) => {
   }
 });
 
-// PUT (update) a user by ID
 server.put("/user/:id", async (req, res) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
-      new: true, // Return the updated document
-      runValidators: true, // Run schema validation
+      new: true,
+      runValidators: true,
     });
     if (!updatedUser) {
       return res.status(404).json({
@@ -64,7 +61,6 @@ server.put("/user/:id", async (req, res) => {
   }
 });
 
-// DELETE a user by ID
 server.delete("/user/:id", async (req, res) => {
   try {
     const deletedUser = await User.findByIdAndDelete(req.params.id);
